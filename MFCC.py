@@ -16,7 +16,16 @@ def write_ceps(ceps,fn):
 def create_ceps(fn):
 	sample_rate,X = io.wavfile.read(fn)
 	ceps,mspec,spec = mfcc(X)
-	write_ceps(ceps,fn)
+	isNan = False
+	for num in ceps:
+		if np.isnan(num[1]):
+			isNan = True
+
+	if isNan == False:
+		write_ceps(ceps,fn)
+	else:
+		print("")
+
 
 def read_ceps(name_list,base_dir = BASE_DIRE):
 	X,y = [],[]

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import MFCC
+import FFT
 from matplotlib.pyplot import specgram
 from sklearn.metrics import confusion_matrix
 from sklearn.svm import LinearSVC
@@ -42,28 +42,23 @@ def plot_confusion_matrix(cm,name_list,name,title):
 
 name_list = ["Uesaka_Sumire","Komatsu_Mikako","Okubo_Rumi","Takamori_Natsumi","Mikami_Shiori"]
 
-x,y = MFCC.read_ceps(name_list)
+x,y = FFT.read_fft(name_list)
 svc = LinearSVC(C=1.0)
-x,y = resample(x,y,n_samples=len(y))
+# x,y = resample(x,y,n_samples=len(y))
 svc.fit(x[150:],y[150:])
 prediction = svc.predict(x[:150])
-cm = confusion_matrix(y[:150],prediction)
-new_cm = normalisation(cm)
+# cm = confusion_matrix(y[:150],prediction)
+# new_cm = normalisation(cm)
 
 
-test_name_list = ["Uesaka_Sumire_Anime","Komatsu_Mikako_Anime","Okubo_Rumi_Anime","Takamori_Natsumi_Anime","Mikami_Shiori_Anime"]
-test_x,test_y = MFCC.read_ceps(test_name_list)
-test_x,test_y = resample(test_x,test_y,n_samples=len(test_y))
-
-svc.fit(x,y)
-
-prediction_anime = svc.predict(test_x)
-print prediction_anime
-
-cm_anime = confusion_matrix(test_y,prediction_anime)
-new_cm_anime = normalisation(cm_anime)
-
-plot_confusion_matrix(new_cm,name_list,"","Radio Voice")
-plot_confusion_matrix(new_cm_anime,name_list,"","Anime Voice")
+# test_name_list = ["Uesaka_Sumire_Anime","Komatsu_Mikako_Anime","Okubo_Rumi_Anime","Takamori_Natsumi_Anime","Mikami_Shiori_Anime"]
+# test_x,test_y = FFT.read_fft(test_name_list)
+# # prediction_anime = svc.predict(test_x)
+# # cm_anime = confusion_matrix(test_y,prediction_anime)
+# # new_cm_anime = normalisation(cm_anime)
+# for t in test_x:
+# 	print t
+# plot_confusion_matrix(new_cm,name_list,"","Radio Voice")
+# plot_confusion_matrix(new_cm_anime,name_list,"","Anime Voice")
 
 
